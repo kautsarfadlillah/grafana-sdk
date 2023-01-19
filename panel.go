@@ -368,6 +368,8 @@ type (
 		Calcs       []string `json:"calcs"`
 		DisplayMode string   `json:"displayMode"`
 		Placement   string   `json:"placement"`
+		SortBy string `json:"sortBy"`
+		SortDesc bool `json:"sortDesc"`
 	}
 	TimeseriesTooltipOptions struct {
 		Mode string `json:"mode"`
@@ -385,8 +387,8 @@ type (
 	FieldConfigCustom struct {
 		AxisLabel         string `json:"axisLabel,omitempty"`
 		AxisPlacement     string `json:"axisPlacement"`
-		AxisSoftMin       *int   `json:"axisSoftMin,omitempty"`
-		AxisSoftMax       *int   `json:"axisSoftMax,omitempty"`
+		AxisSoftMin       *float64   `json:"axisSoftMin,omitempty"`
+		AxisSoftMax       *float64   `json:"axisSoftMax,omitempty"`
 		BarAlignment      int    `json:"barAlignment"`
 		DrawStyle         string `json:"drawStyle"`
 		FillOpacity       int    `json:"fillOpacity"`
