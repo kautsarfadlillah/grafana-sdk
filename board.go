@@ -128,7 +128,7 @@ type (
 		Tags        []string    `json:"tags"`
 		TagKeys     string      `json:"tagKeys"`
 		Type        string      `json:"type"`
-		Hide        string      `json:"hide"` 
+		Hide        bool        `json:"hide"` 
 	}
 	// Link represents link to another dashboard or external weblink
 	Link struct {
