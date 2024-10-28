@@ -4,12 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 )
-
-type TimeRequest struct {
-	Query string `json:"query"`
-	Time  int64  `json:"time"`
-}
 
 type QueryResponse struct {
 	Status    string `json:"status"`
@@ -33,19 +29,20 @@ type Result struct {
 
 type Value []interface{}
 
-func (r *Client) Query(ctx context.Context, source int, request TimeRequest) (QueryResponse, error) {
+func (r *Client) Query(ctx context.Context, source int, params url.Values) (QueryResponse, error) {
 	var (
 		raw  []byte
+		code int
 		resp QueryResponse
 		err  error
 	)
 
-	if raw, err = json.Marshal(request); err != nil {
+	if raw, code, err = r.get(ctx, fmt.Sprintf("api/datasources/proxy/%d/api/v1/query", source), params); err != nil {
 		return QueryResponse{}, err
 	}
 
-	if raw, _, err = r.post(ctx, fmt.Sprintf("api/datasources/proxy/%d/api/v1/query", source), nil, nil); err != nil {
-		return QueryResponse{}, err
+	if code != 200 {
+		return QueryResponse{}, fmt.Errorf("HTTP error %d: returns %s", code, raw)
 	}
 
 	if err = json.Unmarshal(raw, &resp); err != nil {
